@@ -2,6 +2,7 @@ let slidesIds = [];
 let translateXValue = "-100vw";
 let slides = document.querySelectorAll("[id*=slide-]");
 let bottomBtnsDiv = document.querySelector(".bottom-btns");
+let sliderSpeed = "1s";
 
 slides.forEach((el) => {
 	slidesIds.push(el.id);
@@ -14,20 +15,27 @@ changeCurrentSlideOpacity();
 
 const btnLeft = document.querySelector(".btn-left");
 const btnRight = document.querySelector(".btn-right");
+let currentSliderID = slidesIds[cpt];
 
 function hideAllSlides(translateXValue) {
 	document.querySelectorAll("[id*=slide-]").forEach((el) => {
-		el.style = "transform:translateX(" + translateXValue + ")";
+		if (el.id != currentSliderID) {
+			el.style = "transform:translateX(" + translateXValue + ")";
+		} else {
+			el.style =
+				"transition:" +
+				sliderSpeed +
+				";transform:translateX(" +
+				translateXValue +
+				")";
+		}
 	});
-	console.log(
-		document.querySelector("[id*=slide-]").getBoundingClientRect().left
-	);
 }
 
 function showSlide(translateXValue) {
 	hideAllSlides(translateXValue);
 	document.getElementById(slidesIds[cpt]).style =
-		"transition:.5s; transform:translateX(0)";
+		"transition:" + sliderSpeed + "; transform:translateX(0)";
 	changeCurrentSlideOpacity();
 }
 function changeCurrentSlideOpacity() {
@@ -41,25 +49,27 @@ function changeCurrentSlideOpacity() {
 }
 
 btnLeft.addEventListener("click", () => {
+	currentSliderID = slidesIds[cpt];
 	cpt--;
 	if (cpt < 0) cpt = slidesIds.length - 1;
 	showSlide(translateXValue);
 });
 
 btnRight.addEventListener("click", () => {
+	currentSliderID = slidesIds[cpt];
 	cpt++;
 	if (cpt > slidesIds.length - 1) cpt = 0;
 	translateXValue = "100vw";
 	showSlide(translateXValue);
 });
 bottomBtnsDiv.addEventListener("click", (e) => {
+	currentSliderID = slidesIds[cpt];
 	if (e.target.hasAttribute("key")) {
 		let key = e.target.getAttribute("key");
-		console.log(key);
 		if (key != slidesIds[cpt]) {
 			hideAllSlides(translateXValue);
 			document.getElementById(key).style =
-				"transition:.5s; transform:translateX(0)";
+				"transition:" + sliderSpeed + "; transform:translateX(0)";
 			for (let i = 0; i < slidesIds.length; i++) {
 				const element = slidesIds[i];
 				if (slidesIds[i] == key) {
@@ -71,11 +81,12 @@ bottomBtnsDiv.addEventListener("click", (e) => {
 	}
 });
 
-// setInterval(() => {
-// 	if (cpt < slidesIds.length - 1) {
-// 		cpt++;
-// 	} else {
-// 		cpt = 0;
-// 	}
-// 	showSlide("-100vw");
-// }, 5000);
+setInterval(() => {
+	currentSliderID = slidesIds[cpt];
+	if (cpt < slidesIds.length - 1) {
+		cpt++;
+	} else {
+		cpt = 0;
+	}
+	showSlide("-100vw");
+}, 5000);
