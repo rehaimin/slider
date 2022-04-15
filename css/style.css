@@ -32,25 +32,7 @@ body {
 	height: fit-content;
 	background-color: limegreen;
 }
-#slide-one {
-	transform: translateX(0);
-	background-color: greenyellow;
-}
-#slide-two {
-	background-color: blue;
-}
-#slide-three {
-	background-color: blueviolet;
-}
-#slide-four {
-	background-color: yellow;
-}
-#slide-five {
-	background-color: aqua;
-}
-#slide-six {
-	background-color: coral;
-}
+
 .btn-right,
 .btn-left {
 	position: absolute;

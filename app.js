@@ -1,5 +1,5 @@
 let slidesIds = [];
-let translateXValue = "-100vw";
+let translateXValue = "-100%";
 let slides = document.querySelectorAll("[id*=slide-]");
 let bottomBtnsDiv = document.querySelector(".bottom-btns");
 let sliderSpeed = "1s";
@@ -16,7 +16,7 @@ changeCurrentSlideOpacity();
 const btnLeft = document.querySelector(".btn-left");
 const btnRight = document.querySelector(".btn-right");
 let currentSliderID = slidesIds[cpt];
-
+showSlide(translateXValue);
 function hideAllSlides(translateXValue) {
 	document.querySelectorAll("[id*=slide-]").forEach((el) => {
 		if (el.id != currentSliderID) {
@@ -52,6 +52,7 @@ btnLeft.addEventListener("click", () => {
 	currentSliderID = slidesIds[cpt];
 	cpt--;
 	if (cpt < 0) cpt = slidesIds.length - 1;
+
 	showSlide(translateXValue);
 });
 
@@ -59,7 +60,7 @@ btnRight.addEventListener("click", () => {
 	currentSliderID = slidesIds[cpt];
 	cpt++;
 	if (cpt > slidesIds.length - 1) cpt = 0;
-	translateXValue = "100vw";
+	translateXValue = "-100%";
 	showSlide(translateXValue);
 });
 bottomBtnsDiv.addEventListener("click", (e) => {
@@ -69,7 +70,9 @@ bottomBtnsDiv.addEventListener("click", (e) => {
 		if (key != slidesIds[cpt]) {
 			hideAllSlides(translateXValue);
 			document.getElementById(key).style =
-				"transition:" + sliderSpeed + "; transform:translateX(0)";
+				"transition:" +
+				sliderSpeed +
+				"; transform:translateX(0);transform-origin:right";
 			for (let i = 0; i < slidesIds.length; i++) {
 				const element = slidesIds[i];
 				if (slidesIds[i] == key) {
@@ -81,12 +84,12 @@ bottomBtnsDiv.addEventListener("click", (e) => {
 	}
 });
 
-setInterval(() => {
-	currentSliderID = slidesIds[cpt];
-	if (cpt < slidesIds.length - 1) {
-		cpt++;
-	} else {
-		cpt = 0;
-	}
-	showSlide("-100vw");
-}, 5000);
+// setInterval(() => {
+// 	currentSliderID = slidesIds[cpt];
+// 	if (cpt < slidesIds.length - 1) {
+// 		cpt++;
+// 	} else {
+// 		cpt = 0;
+// 	}
+// 	showSlide("-100%");
+// }, 3000);
